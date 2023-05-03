@@ -1,5 +1,6 @@
 from django.db import models
 from django.contrib.auth.models import AbstractUser
+from datetime import datetime
 # Create your models here.
 
 estadosMantenimiento =[
@@ -19,6 +20,19 @@ tipoUsuario = [
     ('Instructor','Instructor'),
     ('Aprendiz','Aprendiz'),
     ('Administrativo','Administrativo')
+]
+
+tipoElemento = [
+    ('HER','Herramientas'),
+    ('MAQ','Maquinario'),
+    ('EQU','Equipos'),
+    ('MAT','Materiales'),
+]
+
+estadosElementos = [
+    ('Bueno','Bueno'),
+    ('Regular','Regular'),
+    ('Malo','Malo'),
 ]
 
 class Ficha(models.Model):
@@ -70,3 +84,33 @@ class User(AbstractUser):
     
     def __str__(self) -> str:
         return f"{self.username}"
+    
+class Elemento(models.Model):
+    eleCodigo = models.CharField(max_length=15,unique=True,db_comments="Codigo unico asignado al elemento")
+    eleNombre = models.CharField(max_length=50,db_comments="Nombre del elemento ")
+    eleTipo = models.CharField(max_length=3,choices=tipoElemento,db_comments="Tipo de elementos")
+    fechaHoraCreacion = models.DateTimeField(auto_now_add=True ,db_comments="Fecha y Hora del registro")
+    fechaHoraActualizacion = models.DateTimeField(auto_now_add=True ,db_comments="Fecha y Hora Ultima Actualizacion")
+    
+    def __str__(self) -> str:
+        return f"{self.eleCodigo} - {self.eleNombre}"
+    
+class Devolutivo(models.Model):
+    devPlacaSena = models.CharField(max_length=45,unique=True,db_comments="Codigo inventario del sena")
+    devSerial = models.CharField(max_length=45,null=True,db_comments="Serial del elemento devolutivo")
+    devDescripcion = models.CharField(db_comments="Descripcion del elemento devolutivo")
+    devMarca = models.CharField(max_length=50,null=True,db_comments="Marca del elemento devolutivo")
+    devFechaIngresoSENA = models.CharField(db_comments="Fecha ingreso del elemento devolutivo al inventario SENA")
+    devValor = models.DecimalField(db_comments="Valor del elemento registrado inventario SENA")
+    devEstado = models.CharField(max_length=10,choices=estadosElementos,db_comments="Estado del elemento inventario SENA")
+    userFoto = models.FileField(upload_to=f"elementos/",null=True,blank=True,db_comments="Foto del elemento devolutivo")
+    devElemento = models.ForeignKey(Elemento,on_delete=models.PROTECT,db_comments="Hace relacion al elemento FK")
+    fechaHoraCreacion = models.DateTimeField(auto_now_add=True ,db_comments="Fecha y Hora del registro")
+    fechaHoraActualizacion = models.DateTimeField(auto_now_add=True ,db_comments="Fecha y Hora Ultima Actualizacion")
+    
+    def __str__(self):
+        return f"{self.devElemento}"
+    
+class Material(models.Model):
+    pass
+    
