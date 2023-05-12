@@ -1,0 +1,82 @@
+{% extends "index.html" %}
+{% block encabezado %}
+{% include "administrador/encabezadoAdministrador.html" %}
+{% endblock %}
+{% block menu %}
+{% include "administrador/menu.html" %}
+{% endblock %}
+{% block contenido %}
+<div class="w-100 mt-3" style="margin: 0 auto;">
+    <form id="frmEditar" action="/actualizarUsuario/" method="post" enctype="multipart/form-data" class="was-validated">
+        {% csrf_token %}
+        <div>
+            <h1 class="text-center">EDITAR USUARIO</h1>
+        </div>
+        <div class="row">
+            <div>
+                <input type="hidden" name="idUsuario" id="idUsuario" value="{{usuario.id}}">
+            </div>
+            <div class="form-floating col-4">
+                <input type="text" name="txtNombre" id="txtNombre" class="form-control" value="{{usuario.first_name}}" required>
+                <label for="txtNombre">Nombre</label>
+                <br>
+            </div>
+            <div class="form-floating col-4">
+                <input type="text" name="txtApellido" id="txtApellido" class="form-control" value="{{usuario.last_name}}" required>
+                <label for="txtApellido">Apellido</label>
+                <br>
+            </div>
+            <div class="form-floating col-4">
+                <input type="text" name="txtCorreo" id="txtCorreo" class="form-control" value="{{usuario.username}}" required>
+                <label for="txtCorreo">Correo Electronico</label>
+                <br>
+            </div>
+
+            <div class="form-floating col-6 d-flex" style="margin-left: 350px;">
+                <select class="form-select" name="cbTipo" id="cbTipo" value="{{usuario.userTipo}}" required>
+                    <option value="0">Seleccione</option>
+                    {% for tipo in tipos %}
+                        {% if tipo.0 == usuario.userTipo %}
+                            <option value="{{tipo.0}}" selected>{{usuario.userTipo}} </option>
+                        {% else %}
+                            <option value="{{tipo.0}}">{{tipo.0}} </option>
+                        {% endif %}
+                    {% endfor %}
+                </select>
+                <label for="cbCategoria">Tipo:</label>
+                <br>
+            </div>
+        </div>
+        <br>
+        <div class="form-floating">
+            <input type="file" name="Fimagen" id="Fimagen" class="form-control" accept=".jpg">
+            <label for="Fimagen">Imagen del producto: (jpg)</label>
+        </div>
+
+        <div class="text-center">
+            <br>
+            <img id="imagenproducto" src="" alt="" width="100" height="100">
+        </div>
+        <div>
+            <br>
+            <button class="btn btn-success mt.3">Editar</button>
+        </div>
+    </form>
+    <div>
+        {% if mensaje %}
+        {% if estado %}
+        <script>
+            Swal.fire('Producto', '{{mensaje}}', 'success')
+        </script>
+        {% else %}
+        <script>
+            Swal.fire('Producto', '{{mensaje}}', 'error')
+        </script>
+        {% endif %}
+        {% endif %}
+    </div>
+</div>
+{% endblock %}
+{% block piePagina %}
+{% include "piePagina.html" %}
+{% endblock %}

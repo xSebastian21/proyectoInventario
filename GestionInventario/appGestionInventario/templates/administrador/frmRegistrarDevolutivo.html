@@ -1,0 +1,159 @@
+{% extends 'index.html' %}
+{% block encabezado %}
+{% include 'administrador/encabezadoAdministrador.html' %}
+{% endblock %}
+{% block menu %}
+{% include 'administrador/menu.html' %}
+{% endblock %}
+{% block contenido %}
+<div class="w-100 mt-4" style="margin: 0 auto;">
+    <form id="frmProducto" action="/registrarDevolutivo/" method="post" enctype="multipart/form-data">
+        {% csrf_token %}
+        <div>
+            <h3 class="text-center">REGISTRAR ELEMENTO DEVOLUTIVO</h3>
+        </div>
+        <div class="row">
+            <div class="form-floating col-4">
+                <select class="form-select" name="cbTipoElemento" id="cbTipoElemento" required>
+                    <option value="0">Seleccione</option>
+                    {% for tipo in tipoElementos %}
+                    <option value="{{tipo.0}}">{{tipo.1}}</option>
+                    {% endfor %}
+                </select>
+                <label for="cbTipoElemento">Tipo Elemento:</label>
+                <br>
+            </div>
+            <div class="form-floating col-4">
+                <input type="date" name="txtFechaSena" id="txtFechaSena" class="form-control" required>
+                <label for="txtFechaSena">Fecha Inventario SENA: </label>
+                <br>
+            </div>
+            <div class="form-floating col-4">
+                <input type="text" name="txtPlacaSena" id="txtPlacaSena" class="form-control" required>
+                <label for="txtPlacaSena">Placa SENA: </label>
+                <br>
+            </div>
+
+            <div class="form-floating col-3">
+                <input type="text" name="txtSerial" id="txtSerial" class="form-control" required>
+                <label for="txtSerial">Serial: </label>
+                <br>
+            </div>
+            <div class="form-floating col-3">
+                <input type="text" name="txtMarca" id="txtMarca" class="form-control" required>
+                <label for="txtMarca">Marca: </label>
+                <br>
+            </div>
+            <div class="form-floating col-3">
+                <input type="number" name="txtValorUnitario" id="txtValorUnitario" class="form-control" required>
+                <label for="txtValorUnitario">Valor Unitario: </label>
+                <br>
+            </div>
+            <div class="form-floating col-3">
+                <select class="form-select" name="cbEstado" id="cbEstado" required>
+                    <option value="0">Seleccione</option>
+                    {% for estado in estados %}
+                    <option value="{{estado.0}}">{{estado.1}}</option>
+                    {% endfor %}
+                </select>
+                <label for="cbEstado">Estado:</label>
+                <br>
+            </div>
+
+            <div class="form-floating">
+                <input type="text" name="txtNombre" id="txtNombre" class="form-control" required>
+                <label for="txtNombre">Nombre: </label>
+                <br>
+            </div>
+            <div class="form-floating">
+                <input type="text" name="txtDescripcion" id="txtDescripcion" class="form-control" required>
+                <label for="txtDescripcion">Descripcion y/o Caracteristicas: </label>
+                <br>
+            </div>
+            <div>
+                <h3 class="text-center">UBICACIÓN</h3>
+            </div>
+
+            <div class="form-floating col-3">
+                <select class="form-select" name="cbDeposito" id="cbDeposito" required>
+                    <option value="0">Seleccione el deposito</option>
+                    {% for deposito in depositos %}
+                    <option value="{{deposito.0}}">{{deposito.1}}</option>
+                    {% endfor %}
+                </select>
+                <label for="cbDeposito">Deposito:</label>
+                <br>
+            </div>
+            <div class="form-floating col-3">
+                <input type="text" name="txtEstante" id="txtEstante" class="form-control" required>
+                <label for="txtEstante">Estante: </label>
+                <br>
+            </div>
+            <div class="form-floating col-3">
+                <input type="text" name="txtEntrepano" id="txtEntrepano" class="form-control" required>
+                <label for="txtEntrepano">Entrepaño: </label>
+                <br>
+            </div>
+            <div class="form-floating col-3">
+                <input type="text" name="txtLocker" id="txtLocker" class="form-control" required>
+                <label for="txtLocker">Locker: </label>
+                <br>
+            </div>
+
+            <div class="form-floating">
+                <input type="file" name="Fimagen" id="Fimagen" class="form-control" accept=".jpg">
+                <label for="Fimagen">Imagen del Elemento: (jpg)</label>
+            </div>
+
+            <div class="text-center">
+                <br>
+                <img id="imagenproducto" src="" alt="" width="100" height="100">
+            </div>
+
+            <!-- Codigo viejo -->
+
+            <!-- <div class="form-floating col-6">
+                <select class="form-select" name="cbTipo" id="cbTipo" required>
+                    <option value="0">Seleccione</option>
+                    {% for tipo in tipos %}
+                        <option value="{{tipo.0}}">{{tipo.1}}</option>
+                    {% endfor %}
+                </select>
+                <label for="cbCategoria">Tipo:</label>
+                <br>
+            </div>
+            <div class="form-floating col-6">
+                <select class="form-select" name="cbRol" id="cbRol" required>
+                    <option value="0">Seleccione</option>
+                    {% for rol in roles %}
+                        <option value="{{rol.id}}">{{rol.name}}</option>
+                    {% endfor %}
+                </select>
+                <label for="cbCategoria">Roles: </label>
+                <br>
+            </div>
+        </div>
+        <br> -->
+            <br>
+            <button class="btn btn-secondary mt-3">Registrar</button>
+            <a href="/vistaGestionarDevolutivos"><button type="button" class="btn btn-danger mt-3 col-1">Cancelar</button></a>
+        </div>
+    </form>
+    <div>
+        {% if mensaje %}
+        {% if estado %}
+        <script>
+            Swal.fire('Producto', '{{mensaje}}', 'success')
+        </script>
+        {% else %}
+        <script>
+            Swal.fire('Producto', '{{mensaje}}', 'error')
+        </script>
+        {% endif %}
+        {% endif %}
+    </div>
+</div>
+{% endblock %}
+{% block piePagina %}
+{% include 'piePagina.html' %}
+{% endblock %}

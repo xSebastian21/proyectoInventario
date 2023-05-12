@@ -16,7 +16,33 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path
+from appGestionInventario import views
+from django.conf import settings
+from django.conf.urls.static import static
+
+
 
 urlpatterns = [
     path('admin/', admin.site.urls),
+    path('inicio/',views.vistaLogin),
+    path('iniciarSesion/',views.login),
+    path('vistaRegistrarUsuario/',views.vistaRegistrarUsuarios),
+    path('registrarUsuario/',views.registrarUsuario),
+    path('inicioAdministrador/',views.inicioAdministrador),
+    path('inicioInstructor/',views.inicioInstructor),
+    path('inicioAsistente/',views.inicioAsistente),
+    path('vistaGestionUsuarios/',views.vistaGestionUsuarios),
+    path('eliminarUsuario/<int:id>/', views.eliminarUsuario),
+    path('consultarUsuario/<int:id>/', views.consultarUsuario),
+    path('actualizarUsuario/', views.actualizarUsuario),
+    path('vistaGestionarDevolutivos/',views.vistaGestionarDevolutivos),
+    path('vistaRegistrarDevolutivo/',views.vistaRegistrarDevolutivo),
+    path('registrarDevolutivo/',views.registrarDevolutivo),
+    
 ]
+
+if settings.DEBUG:
+    urlpatterns += static(
+        settings.MEDIA_URL,
+        document_root = settings.MEDIA_ROOT
+    )

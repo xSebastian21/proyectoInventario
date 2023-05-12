@@ -1,0 +1,57 @@
+{% extends "index.html" %}
+{% block encabezado %}
+    {% include "administrador/encabezadoAdministrador.html" %}
+{% endblock %}
+{% block menu %}
+    {% include "administrador/menu.html" %}
+{% endblock %}
+{% block contenido %}
+<div class="w-75" style="margin: 0 auto;">
+    <div>
+        <h1 class="text-center">GESTIONAR PRODUCTOS</h1>
+    </div>
+    <br>
+    <a href="/vistaRegistrarUsuario/"><button class="btn btn-success" style="margin-left: 125px;">Agregar</button></a>
+    <br>
+    <br>
+    <table class="table table-bordered w-75" style="margin: 0 auto">
+        <thead class="bg-danger text-white fw-bold">
+            <tr>
+                <th>Nombre Completo</th>
+                <th>Correo Electronico</th>
+                <th>Tipo</th>
+                <th>Foto</th>
+                <th>Acción</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for usuario in listaUsuarios %}
+            <tr>
+                <td>{{usuario.first_name}} {{usuario.last_name}}</td>
+                <td>{{usuario.username}}</td>
+                <td>{{usuario.userTipo}}</td>
+                <td class="text-center"> 
+                    <img src="../media/{{usuario.userFoto}}" width="50" height="50" alt="">
+                </td>
+                <td>
+                    <a href="/consultarUsuario/{{usuario.id}}">
+                        <i class="fa fa-edit text-warning"></i>
+                    </a>
+                    <i class="fa fa-trash text-danger" onclick="abrirModalEliminar('{{usuario.id}}')"></i>
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+<div>
+    {% if mensaje %}
+        <script>
+            Swal.fire("Gestion Producto",'{{mensaje}}',"info")
+        </script>
+    {% endif %}
+</div>
+{% endblock %}
+{% block piePagina %}
+    {% include "piePagina.html" %}
+{% endblock %}
